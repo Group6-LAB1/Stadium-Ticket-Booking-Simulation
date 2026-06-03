@@ -1,1 +1,203 @@
+classDiagram
+direction LR
 
+%% =========================
+%% USERS
+%% =========================
+class Users {
+    -userId :  String
+    -username :  String
+    -passwordHash :  String
+    -fullName :  String
+    -email :  String
+    -role :  String
+    -loyaltyPoints :  int
+    -createdAt :  Timestamp
+
+    +Users()
+    +Users(userId :  String, username :  String, role :  String)
+
+    +login()   boolean
+    +logout()   void
+    +updateProfile()   void
+    +viewTickets()   void
+
+    +getUserId()   String
+    +setUserId(userId :  String) :  void
+    +getRole()   String
+}
+
+%% =========================
+%% STAFF
+%% =========================
+class Staff {
+    -staffId :  String
+    -userId :  String
+    -department :  String
+    -baseSalary :  double
+    -hireDate :  Date
+
+    +Staff()
+    +Staff(staffId :  String, department :  String)
+
+    +calculateSalary()   double
+    +viewPayroll()   void
+    +updateDepartment()   void
+
+    +getStaffId()   String
+    +setStaffId(staffId :  String) :  void
+}
+
+%% =========================
+%% TEAMS
+%% =========================
+class Teams {
+    -teamId :  String
+    -teamName :  String
+    -coachName :  String
+    -stadiumHome :  String
+    -description :  String
+
+    +Teams()
+    +Teams(teamId :  String, teamName :  String)
+
+    +addTeam()   void
+    +updateTeam()   void
+    +viewTeamInfo()   void
+
+    +getTeamId()   String
+    +setTeamId(teamId :  String) :  void
+}
+
+%% =========================
+%% MATCHES
+%% =========================
+class Matches {
+    -matchId :  String
+    -homeTeamId :  String
+    -awayTeamId :  String
+    -matchDate :  Timestamp
+    -stadiumName :  String
+    -totalSeats :  int
+    -availableSeats :  int
+
+    +Matches()
+    +Matches(matchId :  String, stadiumName :  String)
+
+    +scheduleMatch()   void
+    +updateAvailableSeats()   void
+    +cancelMatch()   void
+    +viewMatchDetails()   void
+
+    +getMatchId()   String
+    +setMatchId(matchId :  String) :  void
+}
+
+%% =========================
+%% TICKETS
+%% =========================
+class Tickets {
+    -ticketId :  String
+    -userId :  String
+    -matchId :  String
+    -seatNumber :  String
+    -price :  double
+    -status :  String
+    -bookingDate :  Timestamp
+
+    +Tickets()
+    +Tickets(ticketId :  String, userId :  String)
+
+    +bookTicket()   void
+    +cancelTicket()   void
+    +redeemTicket()   void
+    +calculatePrice()   double
+
+    +getTicketId()   String
+    +setTicketId(ticketId :  String) :  void
+}
+
+%% =========================
+%% PAYMENTS
+%% =========================
+class Payments {
+    -paymentId :  String
+    -ticketId :  String
+    -amount :  double
+    -paymentMethod :  String
+    -paymentDate :  Timestamp
+    -status :  String
+
+    +Payments()
+    +Payments(paymentId :  String, amount :  double)
+
+    +processPayment()   boolean
+    +refundPayment()   void
+    +generateInvoice()   void
+
+    +getPaymentId()   String
+    +setPaymentId(paymentId :  String) :  void
+}
+
+%% =========================
+%% SALARIES
+%% =========================
+class Salaries {
+    -payrollId :  String
+    -staffId :  String
+    -payPeriod :  String
+    -finalSalary :  double
+    -paymentStatus :  String
+    -processedDate :  Date
+
+    +Salaries()
+    +Salaries(payrollId :  String, finalSalary :  double)
+
+    +calculateSalary()   double
+    +generatePayroll()   void
+    +approvePayroll()   void
+
+    +getPayrollId()   String
+    +setPayrollId(payrollId :  String) :  void
+}
+
+%% =========================
+%% AUDIT LOGS
+%% =========================
+class AuditLogs {
+    -logId :  String
+    -userId :  String
+    -action :  String
+    -timestamp :  Timestamp
+    -ipAddress :  String
+
+    +AuditLogs()
+    +AuditLogs(logId :  String, action :  String)
+
+    +recordAction()   void
+    +viewLogs()   void
+    +exportLogs()   void
+
+    +getLogId()   String
+    +setLogId(logId :  String) :  void
+}
+
+%% =========================
+%% RELATIONSHIPS
+%% =========================
+
+Users "1" --> "0..1" Staff :  manages
+
+Users "1" --> "0..*" Tickets :  books
+
+Users "1" --> "0..*" AuditLogs :  creates
+
+Teams "1" --> "0..*" Matches :  homeTeam
+
+Teams "1" --> "0..*" Matches :  awayTeam
+
+Matches "1" --> "0..*" Tickets :  contains
+
+Tickets "1" --> "1" Payments :  payment
+
+Staff "1" --> "0..*" Salaries :  receives
