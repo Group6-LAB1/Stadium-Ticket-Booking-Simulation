@@ -1,201 +1,157 @@
+
 classDiagram
-direction LR
 
-%% =========================
-%% USERS
-%% =========================
-class Users {
-    -userId :  String
-    -username :  String
-    -passwordHash :  String
-    -fullName :  String
-    -email :  String
-    -role :  String
-    -loyaltyPoints :  int
-    -createdAt :  Timestamp
+class Teams{
+    -teamId : String
+    -teamName : String
+    -coachName : String
+    -stadiumHome : String
+    -description : String
 
-    +Users()
-    +Users(userId :  String, username :  String, role :  String)
-
-    +login()   boolean
-    +logout()   void
-    +updateProfile()   void
-    +viewTickets()   void
-
-    +getUserId()   String
-    +setUserId(userId :  String)  void
-    +getRole()   String
+    +Teams() void
+    +Teams(teamId : String, teamName : String)
+    +addTeam() void
+    +updateTeam() void
+    +viewTeamInfo() void
+    +getTeamId() void
+    +setTeamId(teamId : String) void
 }
 
-%% =========================
-%% STAFF
-%% =========================
-class Staff {
-    -staffId :  String
-    -userId :  String
-    -department :  String
-    -baseSalary :  double
-    -hireDate :  Date
+class Matches{
+    -matchId : String
+    -homeTeamId : String
+    -awayTeamId : String
+    -matchDate : Timestamp
+    -stadiumName : String
+    -totalSeats : int
+    -availableSeats : int
 
-    +Staff()
-    +Staff(staffId :  String, department :  String)
-
-    +calculateSalary()   double
-    +viewPayroll()   void
-    +updateDepartment()   void
-
-    +getStaffId()   String
-    +setStaffId(staffId :  String)  void
+    +Matches() void
+    +Matches(matchId : String, stadiumName : String)
+    +scheduleMatch() void
+    +updateAvailableSeats() void
+    +cancelMatch() void
+    +viewMatchDetails() void
+    +getMatchId() void
+    +setMatchId(matchId : String) void
 }
 
-%% =========================
-%% TEAMS
-%% =========================
-class Teams {
-    -teamId :  String
-    -teamName :  String
-    -coachName :  String
-    -stadiumHome :  String
-    -description :  String
+class Tickets{
+    -ticketId : String
+    -userId : String
+    -matchId : String
+    -seatNumber : String
+    -price : double
+    -status : String
+    -bookingDate : Timestamp
 
-    +Teams()
-    +Teams(teamId :  String, teamName :  String)
-
-    +addTeam()   void
-    +updateTeam()   void
-    +viewTeamInfo()   void
-
-    +getTeamId()   String
-    +setTeamId(teamId :  String)  void
+    +Tickets() void
+    +Tickets(ticketId : String, userId : String) void
+    +bookTicket() void
+    +cancelTicket() void
+    +redeemTicket() void
+    +calculatePrice() void
+    +getTicketId() void
+    +setTicketId(ticketId : String) void
 }
 
-%% =========================
-%% MATCHES
-%% =========================
-class Matches {
-    -matchId :  String
-    -homeTeamId :  String
-    -awayTeamId :  String
-    -matchDate :  Timestamp
-    -stadiumName :  String
-    -totalSeats :  int
-    -availableSeats :  int
+class Payments{
+    -paymentId : String
+    -ticketId : String
+    -amount : double
+    -paymentMethod : String
+    -paymentDate : Timestamp
+    -status : String
 
-    +Matches()
-    +Matches(matchId :  String, stadiumName :  String)
-
-    +scheduleMatch()   void
-    +updateAvailableSeats()   void
-    +cancelMatch()   void
-    +viewMatchDetails()   void
-
-    +getMatchId()   String
-    +setMatchId(matchId :  String)  void
+    +Payments() void
+    +Payments(paymentId : String, amount : double)
+    +processPayment() void
+    +refundPayment() void
+    +generateInvoice() void
+    +getPaymentId() void
+    +setPaymentId(paymentId : String) void
 }
 
-%% =========================
-%% TICKETS
-%% =========================
-class Tickets {
-    -ticketId :  String
-    -userId :  String
-    -matchId :  String
-    -seatNumber :  String
-    -price :  double
-    -status :  String
-    -bookingDate :  Timestamp
+class Users{
+    -userId : String
+    -username : String
+    -passwordHash : String
+    -fullName : String
+    -email : String
+    -role : String
+    -loyaltyPoints : int
+    -createdAt : Timestamp
 
-    +Tickets()
-    +Tickets(ticketId :  String, userId :  String)
-
-    +bookTicket()   void
-    +cancelTicket()   void
-    +redeemTicket()   void
-    +calculatePrice()   double
-
-    +getTicketId()   String
-    +setTicketId(ticketId :  String)  void
+    +Users() void
+    +Users(userId : String, username : String, role : String)
+    +login() void
+    +logout() void
+    +updateProfile() void
+    +viewTickets() void
+    +getUserId() void
+    +setUserId(userId : String) void
+    +getRole() void
 }
 
-%% =========================
-%% PAYMENTS
-%% =========================
-class Payments {
-    -paymentId :  String
-    -ticketId :  String
-    -amount :  double
-    -paymentMethod :  String
-    -paymentDate :  Timestamp
-    -status :  String
+class Staff{
+    -staffId : String
+    -userId : String
+    -department : String
+    -baseSalary : double
+    -hireDate : Date
 
-    +Payments()
-    +Payments(paymentId :  String, amount :  double)
-
-    +processPayment()   boolean
-    +refundPayment()   void
-    +generateInvoice()   void
-
-    +getPaymentId()   String
-    +setPaymentId(paymentId :  String)  void
+    +Staff() void
+    +Staff(staffId : String, department : String) void
+    +calculateSalary() void
+    +viewPayroll() void
+    +updateDepartment() void
+    +getStaffId() void
+    +setStaffId(staffId : String) void
 }
 
-%% =========================
-%% SALARIES
-%% =========================
-class Salaries {
-    -payrollId :  String
-    -staffId :  String
-    -payPeriod :  String
-    -finalSalary :  double
-    -paymentStatus :  String
-    -processedDate :  Date
+class Salaries{
+    -payrollId : String
+    -staffId : String
+    -payPeriod : String
+    -finalSalary : double
+    -paymentStatus : String
+    -processedDate : Date
 
-    +Salaries()
-    +Salaries(payrollId :  String, finalSalary :  double)
-
-    +calculateSalary()   double
-    +generatePayroll()   void
-    +approvePayroll()   void
-
-    +getPayrollId()   String
-    +setPayrollId(payrollId :  String)  void
+    +Salaries() void
+    +Salaries(payrollId : String, finalSalary : double) void
+    +calculateSalary() void
+    +generatePayroll() void
+    +approvePayroll() void
+    +getPayrollId() void
+    +setPayrollId(payrollId : String) void
 }
 
-%% =========================
-%% AUDIT LOGS
-%% =========================
-class AuditLogs {
-    -logId :  String
-    -userId :  String
-    -action :  String
-    -timestamp :  Timestamp
-    -ipAddress :  String
+class AuditLogs{
+    -logId : String
+    -userId : String
+    -action : String
+    -timestamp : Timestamp
+    -ipAddress : String
 
     +AuditLogs()
-    +AuditLogs(logId :  String, action :  String)
-
-    +recordAction()   void
-    +viewLogs()   void
-    +exportLogs()   void
-
-    +getLogId()   String
-    +setLogId(logId :  String)  void
+    +AuditLogs(logId : String, action : String)
+    +recordAction()
+    +viewLogs()
+    +exportLogs()
+    +getLogId()
+    +setLogId(logId : String)
 }
 
-%% =========================
-%% RELATIONSHIPS
-%% =========================
-
-Staff --|> Users
-Users "1" --> "0..*" Tickets 
-
-Users "1" --> "0..*" AuditLogs 
-
 Teams "1" --> "0..*" Matches 
 
-Teams "1" --> "0..*" Matches 
+Matches "1" --> "0..*" Tickets : contains
 
-Matches "1" --> "0..*" Tickets 
-Tickets "1" --> "1" Payments 
+Users "1" --> "0..*" Tickets : books
 
-Staff "1" --> "0..*" Salaries :  receives
+Tickets "1" --> "1" Payments : payment
+
+Users "1" --> "0..*" AuditLogs : creates
+
+    Users "1" --> "0..1" Staff : employee
+
+Staff "1" --> "0..*" Salaries : receives
